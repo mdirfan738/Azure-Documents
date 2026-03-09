@@ -1,0 +1,8 @@
+az group create --name Lab-RG --location eastus
+
+az vm create \
+  --resource-group Lab-RG \
+  --name MyFirstVM \
+  --image Ubuntu2404 \
+  --admin-username azureuser \
+  --generate-ssh-keys
