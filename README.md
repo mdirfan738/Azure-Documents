@@ -64,6 +64,7 @@ Step 7: Connect to your VM
 Once the deployment is complete:
 
 Click Go to resource.
+### 1. [Create and manage Azure Vnet - Portal](https://docs.microsoft.com/en-us/azure/virtual-network/quick-create-portal)
 
 Copy the Public IP address from the Overview page.
 
