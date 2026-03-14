@@ -66,6 +66,8 @@ Once the deployment is complete:
 Click Go to resource.
 ### 1. [Create and manage Azure Vnet - Portal](https://docs.microsoft.com/en-us/azure/virtual-network/quick-create-portal)
 
+[ AzVMcreationlink](https://github.com/mdirfan738/Azure-Documents/blob/1dea14cd33aee4a953bf45617be90ba3742c5753/AZ%20VM%20Creation%20through%20CLI)
+
 Copy the Public IP address from the Overview page.
 
 Open your terminal (Command Prompt or PowerShell) and type:
