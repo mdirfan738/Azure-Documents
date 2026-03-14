@@ -1,0 +1,59 @@
+name: "GitHub repo applyer"
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: 'read'
+  id-token: 'write'
+jobs:
+  repo_apply:
+    runs-on: mylab-vm
+    permissions: write-all
+    env:
+      G_TOKEN: ${{ secrets.G_TOKEN }}
+
+    defaults:
+      run:
+        shell: bash
+    name: 'apply PR to repo'
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set working directory
+        run: |
+          cd $GITHUB_WORKSPACE
+
+      - name: Read repository list from file
+        id: read_repos
+        run: |
+          for repo in $(cat ./repo_list.txt); do 
+            git clone https://$GITHUB_ACTOR:$G_TOKEN@github.com/mevijays/$repo.git
+            cd $repo
+            git config --global user.email "$GITHUB_ACTOR"
+            git config --global user.name "$GITHUB_ACTOR"
+            git checkout -b feature/fix  
+            cp -r $GITHUB_WORKSPACE/.github .
+            git add --all
+            git commit -m "new files added"
+            git push origin HEAD:feature/fix
+            PR_TITLE="DEVOPS Push| new secuirty changes"
+            PR_BODY="DevOps automated pipeline is pusing the security changes. needs to merge immediatly!"
+            API_URL="https://api.github.com/repos/mevijays/$repo/pulls"
+            payload="{
+              \"title\": \"$PR_TITLE\",
+              \"head\": \"feature/fix\",
+              \"base\": \"main\",
+              \"body\": \"$PR_BODY\"
+            }"
+            auth_header="Authorization: Bearer $G_TOKEN"
+            curl -X POST -H "$auth_header" -H "Content-Type: application/json" -d "$payload"  "$API_URL"
+            echo "Pull request created successfully!"
+          done
+            
+
+ 
+
+
+
+
+
